@@ -1,41 +1,70 @@
-//todo : 考虑如何新增加用户配置，需要增加其他接口
+/**
+ * todo : 支持以下情况
+ *  3. 未来本地开发情况
+ */
 
+/**
+ * 部署需求 ：
+ *      ppear release -d local_wangcheng      本地发布到wangcheng测试机
+ *      ppear release -d remote_wangcheng     远程发布到wangcheng测试机
+ */
 var util = require('util');
 
-var deployObj = {},
-    templateDir = '/home/%s/website/site/web/ui',
-    staticDir = '/home/%s/website',
-    configDir = '/home/%s/website/site/web/cfg/%s',
-    members = ["wangcheng","gaojinghua","gaofeng","xiaoxiao","guoyongfeng"];
-
-
-function getDeployObj(product, namespace){
-
-	var tmpProduct = product,
-	    tmpNamespace = namespace;
-	members.forEach(function(value, index, array){
-	    var deployName = 'local_' + value,
-	        tmpTemplateDir = util.format(templateDir, value),
-	        tmpStaticDir = util.format(staticDir, value),
-	        tmpConfigDir = util.format(configDir, value, tmpProduct);
-	    var deployPath = [
-	        {
-	            from : '/' + tmpProduct,
-	            to : tmpTemplateDir
-	        },
-	        {
-	            from : '/static',
-	            to : tmpStaticDir
-	        },
-	        {
-	            from : '/' + tmpNamespace + '-map.json',
-	            to : tmpConfigDir
-	        }
-	    ];
-	    deployObj[deployName] = deployPath;
-	});
-
-	return deployObj;
+function mergeDeployConf(conf1, conf2){
+    for(var name in conf2){
+        conf1[name] = conf2[name];
+    }
+    return conf1;
 }
 
-exports.getDeployObj = getDeployObj;
+function getDevDeployObj(product, namespace){
+    var deployObj = {},
+        members = ["wangcheng","gaojinghua","gaofeng","xiaoxiao","guoyongfeng"];
+
+    members.forEach(function(value, index, array){
+        var confs = getUserDeployConf(product, namespace, value);
+        deployObj = mergeDeployConf(deployObj, confs)
+    });
+
+    return deployObj;
+}
+
+/**
+ * 获取一个用户在开发机自动部署的配置
+ * @param product
+ * @param namespace
+ * @param username
+ * @returns {Array}
+ */
+function getUserDeployConf(product, namespace, username){
+
+    var templateDir = '/home/%s/website/site/web/ui',
+        staticDir = '/home/%s/website',
+        configDir = '/home/%s/website/site/web/cfg/%s';
+
+    var deployConf = {};
+    var localDeployName = 'local_' + username,
+        tmpTemplateDir = util.format(templateDir, username),
+        tmpStaticDir = util.format(staticDir, username),
+        tmpConfigDir = util.format(configDir, username, product);
+
+    var localDeployPath = [
+        {
+            from : '/' + product,
+            to : tmpTemplateDir
+        },
+        {
+            from : '/static',
+            to : tmpStaticDir
+        },
+        {
+            from : '/' + namespace + '-map.json',
+            to : tmpConfigDir
+        }
+    ];
+    deployConf[localDeployName] = localDeployPath;
+    return deployConf;
+}
+
+exports.getUserDeployConf = getUserDeployConf;
+exports.getDevDeployObj = getDevDeployObj;
