@@ -1,0 +1,29 @@
+{
+  "name": "ppear",
+  "version": "0.0.3",
+  "description": "pp front end integrate solution",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "ppear": "bin/ppear"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wangcheng714/ppear.git"
+  },
+  "keywords": [
+    "pp"
+  ],
+  "author": "wangcheng",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wangcheng714/ppear/issues"
+  },
+  "homepage": "https://github.com/wangcheng714/ppear",
+  "dependencies": {
+    "fis": "^1.9.4",
+    "fis-parser-less": "0.1.1"
+  }
+}
