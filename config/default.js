@@ -44,31 +44,43 @@ var defaultConfig = {
              * /ui/ppuploader/ppuploader.js =>
              *      发布路径 ： /static/pc/common/ui/ppuploader/ppuploader.js
              *      id ：    common:ui/ppuploader/ppuploader.js
-             */
+
             {
                 reg : /^\/ui\/(.*\.(js|css))$/i,
                 isMod : true,
                 release : '/static/${product}/${namespace}/ui/$1',
                 id : 'ui/$1'
             },
+             */
             /**
              * 匹配ui目录下的其他资源
              * /ui/ppuploader/images/ppuploader.png =>
              *      发布路径 ： /static/pc/home/ui/ppuploader/images/ppuploader.png
-             */
+
             {
                 reg : /^\/ui\/(.*)$/i,
                 release : '/static/${product}/${namespace}/ui/$1'
             },
+             */
             /**
              * 匹配lib下的所有资源
              * /lib/js/jquery.js =>
              *      发布路径 ： /static/pc/common/lib/js/jquery.js
-             */
+
             {
                 reg : /^\/lib\/(.*)$/i,
                 release : '/static/${product}/${namespace}/lib/$1'
             },
+             */
+            /**
+             * 匹配static下的所有资源
+             * /static/lib/js/jquery.js =>
+             *      发布路径 ： /static/pc/common/lib/js/jquery.js
+             */
+             {
+                 reg : /^\/static\/(.*)$/i,
+                 release : '/static/${product}/${namespace}/$1'
+             },
             {
                 reg: /(build\.sh|^\/tools\/.*)/,
                 release: false

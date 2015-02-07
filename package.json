@@ -24,6 +24,7 @@
   "homepage": "https://github.com/wangcheng714/ppear",
   "dependencies": {
     "fis": "^1.9.4",
-    "fis-parser-less": "0.1.1"
+    "fis-parser-less": "0.1.1",
+    "ppear-command-migrate" : "*"
   }
 }
