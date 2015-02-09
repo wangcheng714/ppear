@@ -92,7 +92,7 @@ var defaultConfig = {
              */
             {
                 reg : '${namespace}-map.json',
-                release : '/${namespace}-map.json'
+                release : '/${product}/${namespace}-map.json'
             },
             {
                 reg: /^.+$/,
@@ -108,19 +108,12 @@ var defaultConfig = {
     modules : {
         parser : {
             css : 'less'
-        },
-        //todo : 后续考虑去掉simple打包方案
-        postpackager : 'simple'
+        }
     },
     settings : {
         postprocessor : {
             jswrapper : {
                 type:'amd'
-            }
-        },
-        postpackager : {
-            simple : {
-                autoCombine : true
             }
         },
         spriter : {

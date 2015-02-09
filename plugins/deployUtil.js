@@ -51,20 +51,23 @@ function getUserDeployConf(product, namespace, username){
     var localDeployPath = [
         {
             from : '/' + product,
-            to : tmpTemplateDir
+            to : tmpTemplateDir,
+            exclude : /\-map\.json/i
         },
         {
             from : '/static',
             to : tmpStaticDir
         },
         {
-            from : '/' + namespace + '-map.json',
-            to : tmpConfigDir
+            from : '/' + product,
+            to : tmpConfigDir,
+            include : /\-map\.json/i
         }
     ];
     deployConf[localDeployName] = localDeployPath;
     return deployConf;
 }
 
+exports.mergeDeployConf = mergeDeployConf;
 exports.getUserDeployConf = getUserDeployConf;
 exports.getDevDeployObj = getDevDeployObj;
