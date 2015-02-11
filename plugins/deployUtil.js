@@ -40,13 +40,13 @@ function getUserDeployConf(product, namespace, username){
 
     var templateDir = '/home/%s/website/site/web/ui',
         staticDir = '/home/%s/website',
-        configDir = '/home/%s/website/site/web/cfg/%s';
+        configDir = '/home/%s/website/site/web/cfg';
 
     var deployConf = {};
     var localDeployName = 'local_' + username,
         tmpTemplateDir = util.format(templateDir, username),
         tmpStaticDir = util.format(staticDir, username),
-        tmpConfigDir = util.format(configDir, username, product);
+        tmpConfigDir = util.format(configDir, username);
 
     var localDeployPath = [
         {

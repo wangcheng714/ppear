@@ -6,16 +6,16 @@ var defaultConfig = {
     },
     roadmap:{
         path:[
-            /**
-             * 匹配layout、widget、page中的模版
-             * /page/search/search.html =>
-             *      发布路径 ： /pc/car/page/search/search.html
-             *      id ：    car:page/search
-             */
+        /**
+         * 匹配layout、widget、page中的模版
+         * /page/search/search.html =>
+         *      发布路径 ： /pc/car/page/search/search.html
+         *      id ：    car:page/search/search.html
+         */
             {
-                reg : /^\/(page|layout|widget)\/(.*?)\/([^\/]*\.html)$/i,
+                reg : /^\/(page|layout|widget)\/(.+\.html)$/i,
                 isMod : true,
-                release : '/${product}/${namespace}/$1/$2/$3',
+                release : '/${product}/${namespace}/$1/$2',
                 id : '$1/$2'
             },
             /**
