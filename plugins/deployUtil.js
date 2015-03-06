@@ -42,7 +42,7 @@ function getDevDeployObj(product, namespace){
         ];
 
     members.forEach(function(infos, abbr, array){
-        var confs = getUserDeployConf(product, namespace, infos);
+        var confs = getDeployConfByUser(product, namespace, infos);
         deployObj = mergeDeployConf(deployObj, confs)
     });
 
@@ -56,11 +56,11 @@ function getDevDeployObj(product, namespace){
  * @param userInfo
  * @returns {Array}
  */
-function getUserDeployConf(product, namespace, userInfo){
+function getDeployConfByUser(product, namespace, userInfo){
 
-    var templateDir = '/home/%s/website/site/web/ui',
+    var templateDir = '/home/%s/website/site/web',
         staticDir = '/home/%s/website',
-        configDir = '/home/%s/website/site/web/cfg';
+        configDir = '/home/%s/website/site/web';
 
     var remoteReceiver = 'http://192.168.1.38:9999/receiver';
 
@@ -76,7 +76,7 @@ function getUserDeployConf(product, namespace, userInfo){
 
     var localDeployPath = [
         {
-            from : '/' + product,
+            from : '/ui',
             to : tmpTemplateDir,
             exclude : /\-map\.json/i
         },
@@ -85,7 +85,7 @@ function getUserDeployConf(product, namespace, userInfo){
             to : tmpStaticDir
         },
         {
-            from : '/' + product,
+            from : '/cfg',
             to : tmpConfigDir,
             include : /\-map\.json/i
         }
@@ -114,6 +114,32 @@ function getUserDeployConf(product, namespace, userInfo){
     return deployConf;
 }
 
+function getDeployConfByRoot(product, namespace, root){
+
+    var templateDir = root + '/site/web/ui',
+        staticDir = root,
+        configDir = root + '/site/web';
+
+    var localDeployPath = [
+        {
+            from : '/' + product,
+            to : templateDir,
+            exclude : /\-map\.json/i
+        },
+        {
+            from : '/static',
+            to : staticDir
+        },
+        {
+            from : '/cfg',
+            to : configDir,
+            include : /\-map\.json/i
+        }
+    ];
+    return localDeployPath;
+}
+
 exports.mergeDeployConf = mergeDeployConf;
-exports.getUserDeployConf = getUserDeployConf;
+exports.getDeployConfByUser = getDeployConfByUser;
 exports.getDevDeployObj = getDevDeployObj;
+exports.getDeployConfByRoot = getDeployConfByRoot;
