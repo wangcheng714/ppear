@@ -65,6 +65,14 @@ var defaultConfig = {
                 release : '/cfg/${product}/${namespace}-map.json'
             },
             {
+                reg: "build.sh",
+                release: false
+            },
+            {
+                reg : /output\..*/,
+                release: false
+            },
+            {
                 reg: /^.+$/,
                 release: '/static/${product}/${namespace}$&'
             }
