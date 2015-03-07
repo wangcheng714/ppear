@@ -1,4 +1,6 @@
-
+/**
+ * !!! 此文件为ppear编译、框架的核心文件，牵一发动全身建议不要轻易修改，如须修改请再三确认是否会影响其他内容
+ */
 var defaultConfig = {
     project: {
         md5Length: 8,
@@ -16,6 +18,7 @@ var defaultConfig = {
                 reg : /^\/(page|layout|widget)\/(.+\.html)$/i,
                 isMod : true,
                 release : '/ui/${product}/${namespace}/$1/$2',
+                url : '/${product}/${namespace}/$1/$2',
                 id : '$1/$2'
             },
         /**
