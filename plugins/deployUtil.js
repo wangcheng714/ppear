@@ -1,13 +1,8 @@
 /**
  * todo :
  *  1. deployUtil由于配置文件未来可能需要频繁修改，抽取为独立的npm包比较合适
+ *  2. 增加全程自动部署配置
  */
-/**
- * 部署需求 ：
- *      ppear release -d local_wangcheng      本地发布到wangcheng测试机
- *      ppear release -d remote_wangcheng     远程发布到wangcheng测试机
- */
-var util = require('util');
 
 function mergeDeployConf(conf1, conf2){
     for(var name in conf2){
@@ -16,130 +11,59 @@ function mergeDeployConf(conf1, conf2){
     return conf1;
 }
 
-function getDevDeployObj(product, namespace){
-    var deployObj = {},
-        members = [
+function getDeployConf(type, product, namespace, root){
+    var deployMap = {
+        f3 : {
+            templateDir : "/site/web",
+            configDir : "/site/web",
+            staticDir : "/"
+        },
+        yaf : {
+            templateDir : "/site/web",
+            configDir : "/site/web",
+            staticDir : "/"
+        }
+    }
+    if(deployMap[type]){
+        deployPaths = deployMap[type];
+        var templateDir = root + deployPaths.templateDir,
+            staticDir = root + deployPaths.staticDir,
+            configDir = root + deployPaths.configDir;
+        var deployPaths = [
             {
-                abbr : "wc",
-                name : "wangcheng"
+                from : '/ui',
+                to : templateDir
             },
             {
-                abbr : "gjh",
-                name : "gaojinghua"
+                from : '/static',
+                to : staticDir
             },
             {
-                abbr : "gf",
-                name : "gaofeng"
-            },
-            {
-                abbr : "xx",
-                name : "xiaoxiao"
-            },
-            {
-                abbr : "gyf",
-                name : "guoyongfeng"
+                from : '/cfg',
+                to : configDir
             }
         ];
-
-    members.forEach(function(infos, abbr, array){
-        var confs = getDeployConfByUser(product, namespace, infos);
-        deployObj = mergeDeployConf(deployObj, confs)
-    });
-
-    return deployObj;
+        return deployPaths;
+    }else{
+        fis.log.error("type[" + type + "]不存在对应配置");
+    }
 }
 
-/**
- * 获取一个用户在开发机自动部署的配置
- * @param product
- * @param namespace
- * @param userInfo
- * @returns {Array}
- */
-function getDeployConfByUser(product, namespace, userInfo){
 
-    var templateDir = '/home/%s/website/site/web',
-        staticDir = '/home/%s/website',
-        configDir = '/home/%s/website/site/web';
+function getLocalDeployConf(type, product, namespace){
+    var localUser = process.env["USER"];
+    if(localUser){
+        var root = '/home/' + localUser + '/website/',
+            deployPath = getDeployConf(type, product, namespace, root);
 
-    var remoteReceiver = 'http://192.168.1.38:9999/receiver';
-
-    var username = userInfo['name'],
-        userAbbr = userInfo['abbr'];
-
-    var deployConf = {};
-    var localDeployName = 'l_' + userAbbr,
-        remoteDeployName = 'r_' + userAbbr,
-        tmpTemplateDir = util.format(templateDir, username),
-        tmpStaticDir = util.format(staticDir, username),
-        tmpConfigDir = util.format(configDir, username);
-
-    var localDeployPath = [
-        {
-            from : '/ui',
-            to : tmpTemplateDir,
-            exclude : /\-map\.json/i
-        },
-        {
-            from : '/static',
-            to : tmpStaticDir
-        },
-        {
-            from : '/cfg',
-            to : tmpConfigDir,
-            include : /\-map\.json/i
-        }
-    ];
-    var remoteDeployPath = [
-        {
-            receiver : remoteReceiver,
-            from : '/' + product,
-            to : tmpTemplateDir,
-            exclude : /\-map\.json/i
-        },
-        {
-            receiver : remoteReceiver,
-            from : '/static',
-            to : tmpStaticDir
-        },
-        {
-            receiver : remoteReceiver,
-            from : '/' + product,
-            to : tmpConfigDir,
-            include : /\-map\.json/i
-        }
-    ];
-    deployConf[localDeployName] = localDeployPath;
-    deployConf[remoteDeployName] = remoteDeployPath;
-    return deployConf;
-}
-
-function getDeployConfByRoot(product, namespace, root){
-
-    var templateDir = root + '/site/web/ui',
-        staticDir = root,
-        configDir = root + '/site/web';
-
-    var localDeployPath = [
-        {
-            from : '/' + product,
-            to : templateDir,
-            exclude : /\-map\.json/i
-        },
-        {
-            from : '/static',
-            to : staticDir
-        },
-        {
-            from : '/cfg',
-            to : configDir,
-            include : /\-map\.json/i
-        }
-    ];
-    return localDeployPath;
+        var deployConf = {};
+        deployConf["local"] = deployPath;
+        return deployConf;
+    }else{
+        fis.log.notice("USER不存在");
+    }
 }
 
 exports.mergeDeployConf = mergeDeployConf;
-exports.getDeployConfByUser = getDeployConfByUser;
-exports.getDevDeployObj = getDevDeployObj;
-exports.getDeployConfByRoot = getDeployConfByRoot;
+exports.getDeployConf = getDeployConf;
+exports.getLocalDeployConf = getLocalDeployConf;
