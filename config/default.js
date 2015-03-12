@@ -69,6 +69,10 @@ var defaultConfig = {
                 release: false
             },
             {
+                reg: "deploy_qa.sh",
+                release: false
+            },
+            {
                 reg : /output\..*/,
                 release: false
             },
