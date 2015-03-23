@@ -22,6 +22,11 @@ function getDeployConf(type, product, namespace, root){
             templateDir : "/site/web",
             configDir : "/site/web",
             staticDir : "/"
+        },
+        partner : {
+            templateDir : "/site/partner",
+            configDir : "/site/partner",
+            staticDir : "/"
         }
     }
     if(deployMap[type]){
