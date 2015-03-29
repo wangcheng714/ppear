@@ -1,6 +1,6 @@
 {
   "name": "ppear",
-  "version": "0.0.16",
+  "version": "0.0.18",
   "description": "pp front end integrate solution",
   "main": "index.js",
   "scripts": {
@@ -27,6 +27,7 @@
     "fis-parser-less": "0.1.1",
     "fis-postpackager-simple": "0.0.23",
     "ppear-command-migrate": "*",
-    "ppear-command-deploy": "*"
+    "ppear-command-deploy": "*",
+    "ppear-deploy-plugin": "*"
   }
 }

@@ -8,8 +8,8 @@ fis.cli.info = fis.util.readJSON(__dirname + '/package.json');
 //fis.cli.help.commands = [ 'release', 'install', 'server', 'init' ];
 fis.cli.help.commands = [ 'release', 'migrate' ];
 
-//增加deploy插件
-fis.deploy = require("./plugins/deployUtil.js");
+//增加deploy接口
+fis.deploy = require("ppear-deploy-plugin");
 
 var defaultConfig = require('./config/default.js');
 
