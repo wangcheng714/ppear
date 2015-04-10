@@ -6,6 +6,13 @@ var defaultConfig = {
         md5Length: 8,
         md5Connector: '.'
     },
+    server: {
+        rewrite: true,
+        type: 'php',
+        clean: {
+            exclude: "fisdata**,lib**,rewrite**,index.php**,WEB-INF**"
+        }
+    },
     roadmap:{
         path:[
             /**
@@ -58,10 +65,6 @@ var defaultConfig = {
                 reg : /^\/static\/(.*)$/i,
                 release : '/static/${product}/${namespace}/$1'
             },
-            {
-                reg: /(build\.sh|^\/tools\/.*)/,
-                release: false
-            },
             /**
              * 匹配map文件的release地址
              * /common-map.json =>
@@ -71,8 +74,17 @@ var defaultConfig = {
                 reg : '${namespace}-map.json',
                 release : '/cfg/${product}/${namespace}-map.json'
             },
+            /**
+             * 匹配 测试数据文件
+             *  test/page/detail/detail.php | json
+             *      => 发布路径 test/pc/common/page/detail/detail.php
+             */
             {
-                reg: "build.sh",
+                reg : /^\/test\/(.*)$/i,
+                release : '/test/${product}/${namespace}/$1'
+            },
+            {
+                reg: /(build\.sh|^\/tools\/.*)/,
                 release: false
             },
             {
@@ -83,6 +95,7 @@ var defaultConfig = {
                 reg : /output\..*/,
                 release: false
             },
+            //剩余所有资源发布到static目录
             {
                 reg: /^.+$/,
                 release: '/static/${product}/${namespace}$&'
