@@ -30,7 +30,6 @@ node_modules
 /.idea
 /.settings
 /.project
-/.gitignore
 /node_modules
 /test
 /.tmp
