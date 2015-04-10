@@ -10,7 +10,7 @@ var defaultConfig = {
         rewrite: true,
         type: 'php',
         clean: {
-            exclude: "fisdata**,lib**,rewrite**,index.php**,WEB-INF**"
+            exclude: "fisdata**,lib**,rewrite**,index.php**,WEB-INF**,smarty**"
         }
     },
     roadmap:{
@@ -82,6 +82,10 @@ var defaultConfig = {
             {
                 reg : /^\/test\/(.*)$/i,
                 release : '/test/${product}/${namespace}/$1'
+            },
+            {
+                reg : 'server.conf',
+                release : '/server-conf/${namespace}.conf'
             },
             {
                 reg: /(build\.sh|^\/tools\/.*)/,
