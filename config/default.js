@@ -1,5 +1,5 @@
 /**
- * !!! 此文件为ppear编译、框架的核心文件，牵一发动全身建议不要轻易修改，如须修改请再三确认是否会影响其他内容
+ * !!! 此文件为ppear编译、框架的核心文件，建议不要轻易修改，如须修改请确认是否会影响其他内容
  */
 var defaultConfig = {
     project: {
@@ -66,6 +66,16 @@ var defaultConfig = {
                 release : '/static/${product}/${namespace}/$1'
             },
             /**
+             * 匹配plugin下的所有资源
+             * /plugin/lsdiff/ls-diff.php =>
+             *      发布路径 ： /plugin/lsdiff/ls-diff.php
+             */
+            {
+                reg : /^\/plugin\/(.*)$/i,
+                release : '/plugin/$1'
+            },
+            
+            /**
              * 匹配map文件的release地址
              * /common-map.json =>
              *      发布路径 ： /pc/common-map.json
@@ -114,7 +124,8 @@ var defaultConfig = {
     modules : {
         parser : {
             css : 'less'
-        }
+        },
+        postpackager : 'lsdiff-map'
     },
     settings : {
         postprocessor : {
@@ -126,6 +137,11 @@ var defaultConfig = {
             csssprites : {
                 //设置csssprites的合并间距
                 margin : 20
+            }
+        },
+        postpackager : {
+            "lsdiff-map" : {
+                dir : "/plugin/lsdiff"
             }
         }
     }

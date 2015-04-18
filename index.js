@@ -6,7 +6,7 @@ fis.cli.name = 'ppear';
 fis.cli.info = fis.util.readJSON(__dirname + '/package.json');
 
 //fis.cli.help.commands = [ 'release', 'install', 'server', 'init' ];
-fis.cli.help.commands = [ 'release', 'migrate' ];
+fis.cli.help.commands = [ 'release', 'server' ];
 
 //增加deploy接口
 fis.deploy = require("ppear-deploy-plugin");
