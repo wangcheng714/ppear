@@ -1,7 +1,12 @@
 /**
  * !!! 此文件为ppear编译、框架的核心文件，建议不要轻易修改，如须修改请确认是否会影响其他内容
  */
-var defaultConfig = {
+
+var plugins = {
+    lsdiff : require("../plugins/postpackager/lsdiff-map.js")
+}
+
+module.exports = {
     project: {
         md5Length: 8,
         md5Connector: '.'
@@ -11,6 +16,28 @@ var defaultConfig = {
         type: 'php',
         clean: {
             exclude: "fisdata**,lib**,rewrite**,index.php**,WEB-INF**,smarty**"
+        }
+    },
+    modules : {
+        parser : {
+            css : 'less'
+        },
+        postpackager : [plugins.lsdiff]
+    },
+    lsdiff : {
+        dir : "/plugin/lsdiff" //根目录下的绝对路径
+    },
+    settings : {
+        postprocessor : {
+            jswrapper : {
+                type:'amd'
+            }
+        },
+        spriter : {
+            csssprites : {
+                //设置csssprites的合并间距
+                margin : 20
+            }
         }
     },
     roadmap:{
@@ -61,6 +88,11 @@ var defaultConfig = {
              * /static/lib/js/jquery.js =>
              *      发布路径 ： /static/pc/common/lib/js/jquery.js
              */
+            {
+                reg : /^\/static\/(.*\/ls-conf\.js)$/i,
+                release : '/static/${product}/${namespace}/$1',
+                isLSLib : true
+            },
             {
                 reg : /^\/static\/(.*)$/i,
                 release : '/static/${product}/${namespace}/$1'
@@ -120,31 +152,6 @@ var defaultConfig = {
             //并且在parser之后的其他处理流程中被当做css文件处理
             less : 'css'
         }
-    },
-    modules : {
-        parser : {
-            css : 'less'
-        },
-        postpackager : 'lsdiff-map'
-    },
-    settings : {
-        postprocessor : {
-            jswrapper : {
-                type:'amd'
-            }
-        },
-        spriter : {
-            csssprites : {
-                //设置csssprites的合并间距
-                margin : 20
-            }
-        },
-        postpackager : {
-            "lsdiff-map" : {
-                dir : "/plugin/lsdiff"
-            }
-        }
     }
 };
 
-module.exports = defaultConfig;
