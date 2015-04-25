@@ -25,7 +25,7 @@ module.exports = {
         postpackager : [plugins.lsdiff]
     },
     lsdiff : {
-        dir : "/plugin/lsdiff" //根目录下的绝对路径
+        dir : "/fe-plugin/lsdiff" //根目录下的绝对路径
     },
     settings : {
         postprocessor : {
@@ -103,8 +103,8 @@ module.exports = {
              *      发布路径 ： /plugin/lsdiff/ls-diff.php
              */
             {
-                reg : /^\/plugin\/(.*)$/i,
-                release : '/plugin/$1'
+                reg : /^\/plugin\/(.*\.php)$/i,
+                release : '/fe-plugin/$1'
             },
             
             /**

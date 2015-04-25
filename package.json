@@ -1,6 +1,6 @@
 {
   "name": "ppear",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "pp front end integrate solution",
   "main": "index.js",
   "scripts": {
