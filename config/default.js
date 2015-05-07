@@ -33,10 +33,12 @@ module.exports = {
                 type:'amd'
             }
         },
-        spriter : {
-            csssprites : {
-                //设置csssprites的合并间距
-                margin : 20
+        optimizer : {
+            'png-compressor' : {
+                type : 'pngquant',
+                speed : 2,
+                quality : [70, 80],
+                iebug : false //无需兼容ie6
             }
         }
     },
