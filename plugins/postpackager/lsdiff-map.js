@@ -142,9 +142,9 @@ module.exports = function (ret, conf, settings, opt) {
         lsdataFile = fis.file(fileDir, (ns ? ns + "." : "") + DATA_EXT);
 
     lslistFile.release = releaseDir + lslistFile.subpath;
-    lslistFile.setContent(JSON.stringify(listObj));
+    lslistFile.setContent(JSON.stringify(listObj, null, "\t"));
     lsdataFile.release = releaseDir + lsdataFile.subpath;
-    lsdataFile.setContent(JSON.stringify(dataObj));
+    lsdataFile.setContent(JSON.stringify(dataObj, null, "\t"));
 
     ret.pkg[lslistFile.subpath] = lslistFile;
     ret.pkg[lsdataFile.subpath] = lsdataFile;
