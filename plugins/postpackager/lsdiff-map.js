@@ -69,6 +69,8 @@ module.exports = function (ret, conf, settings, opt) {
      *       遍历map -> pkg
      *       对比uri相同的，拿到has列表
      */
+
+
     fis.util.map(ret.pkg, function(id, file){
         var type = file.rExt.replace(".", ""),
             key = replaceKey(file.id),
@@ -76,11 +78,20 @@ module.exports = function (ret, conf, settings, opt) {
             has = [];
         //支持编译有md5和没有md5参数两种情况
         var hashRelease = "";
+        // if(opt.md5 >= 1){
+        //     hashRelease = file.release.replace(file.ext, md5Connector + hash + file.ext);
+        // }else{
+        //     hashRelease = file.release;
+        // }
+        var useHash = false,
+            useDomain = false;
         if(opt.md5 >= 1){
-            hashRelease = file.release.replace(file.ext, md5Connector + hash + file.ext);
-        }else{
-            hashRelease = file.release;
+            useHash = true;
         }
+        if(opt.domain){
+            useDomain = true;
+        }
+        hashRelease = file.getUrl(useHash, useDomain);
         for(var tmpKey in ret.map.pkg){
             var pkgInfo = ret.map.pkg[tmpKey];
             if(pkgInfo["uri"] == hashRelease){
