@@ -1,6 +1,6 @@
 {
   "name": "ppear",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "pp front end integrate solution",
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/wangcheng714/ppear",
   "dependencies": {
-    "fis": "^1.9.4",
+    "fis": "1.9.10",
     "fis-parser-less": "0.1.1",
     "ppear-command-migrate": "*",
     "ppear-command-local": "*",
